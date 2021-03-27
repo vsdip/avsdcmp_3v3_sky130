@@ -1,0 +1,65 @@
+**.subckt test_comparator
+* SPICE3 file created from comparator.ext - technology: sky130A
+
+
+
+Ihyst VCC net4 pwl 0 0 20u 0 21u 0.2u 40u 0.2u 41u 0.8u 60u 0.8u 61u 10u 100u 10u
+V1 VCC GND 3.3
+V2 INN GND 1.235
+V3 INP GND pwl 0 0.8 10u 1.8 20u 0.8 30u 1.8 40u 0.8 50u 1.8 60u 0.8 70u 1.8 80u 0.8 90u 1.8 100u
++ 0.8
+V4 EN GND pwl 0 3.3 80u 3.3 81u 0 100u 0
+LOAD VOUT GND 10M m=1
+
+.option scale=10000u
+
+XM0 VOUT a_305_n627# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=112 ps=0 w=400 l=50
+XM1 Ihyst Ihyst GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=97 ps=0 w=50 l=50
+XM2 VDD a_83_n114# a_204_135# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=600 l=50
+XM3 a_495_n214# a_445_n583# a_305_n627# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=1.42536e+09 pd=22059 as=1.4552e+09 ps=22059 w=200 l=50
+XM4 a_83_n114# INP a_n86_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=8 pd=0 as=113 ps=0 w=100 l=50
+XM5 VDD a_n208_n114# a_n208_n114# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=100 l=100
+XM6 GND VDD a_198_n100# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=50 l=50
+XM7 GND VDD a_n86_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=50 l=100
+XM8 GND EN a_495_n214# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=200 l=50
+XM9 VOUT a_305_n627# GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=200 l=50
+XM10 a_n86_n114# INN a_n208_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=100 l=50
+XM11 a_83_n114# a_445_n583# a_181_n403# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=112 ps=0 w=200 l=50
+XM12 a_305_n627# a_445_n583# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=400 l=50
+XM13 a_83_n114# a_n208_n114# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=100 l=100
+XM14 a_181_n403# a_305_n627# a_n208_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=200 l=50
+XM15 VDD EN a_305_n627# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=400 l=50
+XM16 a_181_n403# Ihyst GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=50 l=50
+C0 GND a_305_n627# 2.06fF
+C1 VDD SUB 4.50fF
+C2 a_n208_n114# SUB 2.19fF
+C3 w_n243_100# SUB 8.87fF
+
+
+.include ../Libs/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5__tt.corner.spice
+.include ../Libs/cells/pfet_g5v0d10v5/sky130_fd_pr__pfet_g5v0d10v5__tt.corner.spice
+* Mismatch parameters
+.include ../Libs/cells/pfet_g5v0d10v5/sky130_fd_pr__pfet_g5v0d10v5__mismatch.corner.spice
+.include ../Libs/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5__mismatch.corner.spice
+*
+* All models
+.include ../Libs/models/all_mod.spice
+*
+
+
+
+
+.options savecurrents
+.control
+tran 10n 100u
+# plot PLUS MINUS VDIFF V2nd VOUT
+# plot net1 net2 net3
+plot INP EN INN VOUT
+plot VOUT vs INP-INN
+.endc
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+** flattened .save nodes
+.end

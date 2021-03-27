@@ -1,0 +1,70 @@
+**.subckt test_comparator
+Ihyst VDD Ihyst pwl 0 0 20u 0 21u 0.2u 40u 0.2u 41u 0.8u 60u 0.8u 61u 10u 100u 10u
+* V5 Ihyst GND 0
+V1 VDD GND 3.3
+V2 INN GND 1.235
+V3 INP GND pwl 0 0.8 10u 1.8 20u 0.8 30u 1.8 40u 0.8 50u 1.8 60u 0.8 70u 1.8 80u 0.8 90u 1.8 100u
++ 0.8
+V4 EN GND pwl 0 3.3 80u 3.3 81u 0 100u 0
+* V4 EN GND 3.3
+LOAD VOUT GND 10M m=1
+
+X0 VOUT a_305_n627# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=4 l=0.50
+X1 VDD a_83_n114# a_198_n100# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=-1 ps=32549 w=6 l=0.50
+X2 a_495_n214# a_198_n100# a_305_n627# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=2 l=0.50
+X3 a_83_n114# INP a_n86_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=8 pd=0 as=2.60372e+08 ps=21999 w=1 l=0.50
+X4 VDD a_n208_n114# a_n208_n114# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=1 l=1
+X5 GND VDD a_198_n100# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=-0 ps=0 w=0.50 l=0.50
+X6 a_181_n429# Ihyst GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=0.50 l=0.50
+X7 GND EN a_495_n214# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=2 l=0.50
+X8 VOUT a_305_n627# GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=2 l=0.50
+X9 a_n86_n114# INN a_n208_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=1 l=0.50
+X10 a_83_n114# a_198_n100# a_181_n429# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=2 l=0.50
+X11 a_305_n627# a_198_n100# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=4 l=0.50
+X12 a_83_n114# a_n208_n114# VDD w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=1 l=1
+X13 a_181_n429# a_305_n627# a_n208_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=2 l=0.50
+X14 VDD EN a_305_n627# w_n243_100# sky130_fd_pr__pfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=4 l=0.50
+X15 Ihyst Ihyst GND SUB sky130_fd_pr__nfet_g5v0d10v5 ad=113 pd=0 as=0 ps=0 w=0.50 l=0.50
+X16 GND VDD a_n86_n114# SUB sky130_fd_pr__nfet_g5v0d10v5 ad=0 pd=0 as=0 ps=0 w=0.50 l=1
+C0 GND a_305_n627# 2.06fF
+C1 VDD SUB 6.17fF
+C2 a_n208_n114# SUB 2.19fF
+C3 a_198_n100# SUB 2.60fF
+C4 w_n243_100# SUB 8.87fF
+
+
+**** begin user architecture code
+
+
+
+
+.include ../../Libs/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5__tt.corner.spice
+.include ../../Libs/cells/pfet_g5v0d10v5/sky130_fd_pr__pfet_g5v0d10v5__tt.corner.spice
+* Mismatch parameters
+.include ../../Libs/cells/pfet_g5v0d10v5/sky130_fd_pr__pfet_g5v0d10v5__mismatch.corner.spice
+.include ../../Libs/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5__mismatch.corner.spice
+*
+* All models
+.include ../../Libs/models/all_mod.spice
+*
+
+
+
+.options savecurrents
+.control
+tran 10n 100u
+# plot PLUS MINUS VDIFF V2nd VOUT
+# plot net1 net2 net3
+plot INP EN INN VOUT
+
+set wr_vecnames
+set wr_singlescale
+wrdata output.txt ihyst inp inn vout
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+** flattened .save nodes
+.end
