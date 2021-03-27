@@ -7,7 +7,7 @@ When the difference between two analog input signals approach zero, noise on the
 
 ## Comparator Circuit
 Below is comparator circuit diagram used for this IP
-[](Images/Circuit_Final.png)
+![](Images/Circuit_Final.png)
 
 ### Inputs to the circuit
 1. VCC - 3.3 v
