@@ -102,7 +102,10 @@ ngspice comparator_postlayout.spice
 
 The layout should be as dipicted in previous section above.
 
-### Areas of improvement
+## Specifications
+![](Images/Specs.jpg)
+
+## Areas of improvement
 The hysteresis at lower differential voltage is higher than the hysteresis at higher differential voltage.
 A few variations of the circuit were tried as present in the PreLayout/archive folder. 
 
